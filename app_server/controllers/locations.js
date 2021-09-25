@@ -5,7 +5,7 @@ const homelist = (req, res) => {
 
 /* Location info */
 const locationInfo = (req, res) => {
-    res.render('index', { title : 'Location info by 2016250002 강동표'});
+    res.render('location-info', { title : 'Location info by 2016250002 강동표'});
 };
 
 /* Add Review */
