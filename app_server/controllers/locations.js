@@ -10,7 +10,7 @@ const locationInfo = (req, res) => {
 
 /* Add Review */
 const addReview = (req, res) => {
-    res.render('index', { title : 'Add review by 2016250002 강동표'});
+    res.render('location-review-form', { title : 'Add review by 2016250002 강동표'});
 };
 
 module.exports = {
