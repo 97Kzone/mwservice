@@ -5,13 +5,13 @@ const locationsReadOne = (req, res) => {
     Loc
         .findById(req.params.locationid)
         .exec((err, location) => {
-            if (!location) {
+            if(!location) {
                 return res
                     .status(404)
                     .json({
-                        "message": "location not found"
+                        "message" : "location not found"
                     });
-            } else if (err) {
+            }else if (err) {
                 return res
                     .status(404)
                     .json(err);
@@ -22,7 +22,7 @@ const locationsReadOne = (req, res) => {
         });
 };
 
-const locationsListByDistance = async (req, res) => {
+const locationListByDistance = async (req, res) => {
     const lng = parseFloat(req.query.lng);
     const lat = parseFloat(req.query.lat);
     const near = {
@@ -31,16 +31,14 @@ const locationsListByDistance = async (req, res) => {
     };
     const geoOptions = {
         distanceField: "distance.calculated",
-        key: 'coords',
         spherical: true,
-        maxDistance: 200000,
+        maxDistance: 2000000,
     };
     if (!lng || !lat) {
         return res
             .status(404)
-            .json({ "message": "lng and lat query parameters are required" }
-            );
-    }
+            .json({"message": "lng and lat query parameters are required"});
+    };
     try {
         const results = await Loc.aggregate([
             {
@@ -63,19 +61,19 @@ const locationsListByDistance = async (req, res) => {
         res
             .status(200)
             .json(locations);
-    } catch (err) {
+    }catch (err){
         res
             .status(404)
-            .json(err);
+            .json(err)
     }
 };
 
-const locationsCreate = (req, res) => { };
-const locationsUpdateOne = (req, res) => { };
-const locationsDeleteOne = (req, res) => { };
+const locationsCreate = (req, res) => {};
+const locationsUpdateOne = (req, res) => {};
+const locationsDeleteOne = (req, res) => {};
 
 module.exports = {
-    locationsListByDistance,
+    locationListByDistance,
     locationsCreate,
     locationsReadOne,
     locationsUpdateOne,

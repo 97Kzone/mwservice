@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dbURI = 'mongodb://localhost/loc8r';
 
-mongoose.connect(dbURI, {useNewUrlParser: true});
+mongoose.connect(dbURI, { useNewUrlParser: true });
 mongoose.connection.on('connected', () => {
     console.log(`Mongoose connected to ${dbURI}`);
 });
@@ -15,9 +15,9 @@ mongoose.connection.on('disconnected', () => {
 });
 
 const gracefulShutdown = (msg, callback) => {
-    mongoose.connection.close( () => {
+    mongoose.connection.close(() => {
         console.log(`Mongoose disconnected through${msg}`);
-    callback();
+        callback();
     });
 };
 
