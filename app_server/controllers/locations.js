@@ -100,7 +100,7 @@ const getLocationInfo = (req, res, callback) => {
   request(
     requestOptions,
     (err, {statusCode}, body) => {
-      const data = body;
+      let data = body;
       if (statusCode === 200) {
         data.coords = {
           lng: body.coords[0],
@@ -117,6 +117,21 @@ const getLocationInfo = (req, res, callback) => {
 const locationInfo = (req, res) => {
   getLocationInfo(req, res,
     (req, res, responseData) => renderDetailPage(req, res, responseData)
+  );
+};
+
+/* Add Review */
+const renderReviewForm = function (req, res, {name}) {
+  res.render('location-review-form', {
+    title: `Review ${name} on Loc8r`,
+    pageHeader: { title: `Review ${name}`},
+    error: req.query.err
+  });
+};
+
+const addReview = (req, res) => {
+  getLocationInfo(req, res,
+    (req, res, responseData) => renderReviewForm(req, res, responseData)
   );
 };
 
@@ -137,23 +152,37 @@ const showError = (req, res, status) => {
   });
 };
 
-/* Add Review */
-const renderReviewForm = function (req, res, {name}) {
-  res.render('location-review-form', {
-    title: `Review ${name} on Loc8r`,
-    pageHeader: { title: `Review ${name}`}
-  });
-};
-
-const addReview = (req, res) => {
-  getLocationInfo(Req, res,
-    (req, res, responseData) => renderReviewForm(req, res, responseData)
-  );
-};
-
 const doAddReview = (req, res) => {
-
+  const locationid = req.params.locationid;
+  const path = `/api/locations/${locationid}/reviews`;
+  const postdata = {
+    author: req.body.name,
+    rating: parseInt(req.body.rating, 10),
+    reviewText: req.body.review
+  };
+  const requestOptions = {
+    url: `${apiOptions.server}${path}`,
+    method: 'POST',
+    json: postdata
+  };
+  if (!postdata.author || !postdata.rating || !postdata.reviewText) {
+    res.redirect(`/location/${locationid}/review/new?err=val`);
+  } else {
+    request(
+      requestOptions,
+      (err, {statusCode}, {name}) => {
+        if (statusCode === 201) {
+          res.redirect(`/location/${locationid}`);
+        } else if (statusCode === 400 && name && name === 'ValidationError') {
+          res.redirect(`/location/${locationid}/review/new?err=val`);
+        } else {
+          showError(req, res, statusCode);
+        }
+      }
+    );
+  }
 };
+
 module.exports = {
     homelist,
     locationInfo,
