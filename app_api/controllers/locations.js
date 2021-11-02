@@ -11,6 +11,7 @@ const locationsListByDistance = async (req, res) => {
 
     const geoOptions = {
         distanceField: "distance.calculated",
+        key: 'coords',
         spherical: true,
         maxDistance: 200000
     };
@@ -45,7 +46,6 @@ const locationsListByDistance = async (req, res) => {
     } catch (err) {
         res.status(404).json(err);
     }
-
 };
 
 const locationsReadOne = (req, res) => {

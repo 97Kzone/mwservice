@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-var gracefulShutdown;
+//var gracefulShutdown;
 const dbURI = 'mongodb://localhost/loc8r';
 mongoose.connect(dbURI, {
     useNewUrlParser: true
