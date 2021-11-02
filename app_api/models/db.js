@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 //var gracefulShutdown;
-const dbURI = 'mongodb+srv://my_atlas_user:dpeb4815@cluster0.iaqo9.mongodb.net/test?authSource=admin&replicaSet=atlas-w589kq-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true'
+const dbURI = 'mongodb+srv://my_atlas_user:dpeb4815@cluster0.iaqo9.mongodb.net/loc8r'
 mongoose.connect(dbURI, {
     useNewUrlParser: true
 });
