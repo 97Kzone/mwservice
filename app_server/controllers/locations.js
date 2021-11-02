@@ -16,8 +16,8 @@ const homelist = (req, res) => {
     method: 'GET',
     json: {},
     qs: {
-      lng: 126.55149,
-      lat: 36.46637,
+      lng: 126.789330,
+      lat: 37.655890,
       maxDistance: 200000
     }
   };
