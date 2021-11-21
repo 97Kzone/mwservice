@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Loc8rDataService } from '../loc8r-data.service';
+import { GeolocationService } from '../geolocation.service';
 
 export class Location {
   _id!: string;
@@ -7,6 +9,9 @@ export class Location {
   address!: string;
   rating!: number;
   facilities!: string[];
+  reviews: any[];
+  coords: number[];
+  openingTimes: any[];
 }
 
 @Component({
@@ -16,28 +21,44 @@ export class Location {
 })
 
 export class HomeListComponent implements OnInit {
+  constructor(
+    private loc8rDataService: Loc8rDataService,
+    private geolocationService: GeolocationService) { }
 
-  constructor() { }
+  public locations!: Location[];
 
-  name = "Burger Queen";
-
-  locations: Location[] = [{
-    _id: '617380307aabf9185244469a',
-    name: 'Burger Queen',
-    distance: 1100.0,
-    address: '고양시 일산동구 마두동 일산로 206',
-    rating: 4,
-    facilities: ['Cool drinks', 'Food', 'Premium wifi']
-  }, {
-    _id: '61737ea7e27f0263df3e3ce0',
-    name: 'Star Cups',
-    distance: 370.0,
-    address: '고양시 일산동구 마두동 일산로 206',
-    rating: 5,
-    facilities: ['drinks', 'food', 'Premium wifi']
-  }];
-
-  ngOnInit(): void {
+  public message!: string;
+  
+  ngOnInit() {
+    this.getPosition();
   }
 
+  private getPosition(): void {
+    this.message = "Getting your location...";
+    this.geolocationService.getPosition(
+      this.getLocations.bind(this),
+      this.showError.bind(this),
+      this.noGeo.bind(this));
+  }
+
+  private getLocations(position: any): void {
+    this.message = 'Searching for nearby places';
+    const lat: number = position.coords.latitude;
+    const lng: number = position.coords.longitude;
+    this.loc8rDataService
+      .getLocations(lat, lng)
+      .then(foundLocations => {
+        this.message = foundLocations.length > 0 ? '':
+        'No locations found';
+      this.locations = foundLocations
+      });
+  }
+
+  private showError(error: any): void{
+    this.message = error.message;
+  };
+
+  private noGeo(): void {
+    this.message = 'Geolocation not suppoerted by this browser.';
+  }
 }
