@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HomeListComponent } from './home-list/home-list.component';
-import { DistancePipe } from './distance.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing/app-routing.module';
+
+import { DistancePipe } from './distance.pipe';
+import { HomeListComponent } from './home-list/home-list.component';
 import { FrameworkComponent } from './framework/framework.component';
 import { AboutComponent } from './about/about.component';
 import { HomepageComponent } from './homepage/homepage.component';
@@ -34,20 +36,9 @@ import { MostRecentFirstPipe } from './most-recent-first.pipe';
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot([
-      {
-        path: '',
-        component: HomepageComponent
-      },
-      {
-        path: 'about',
-        component: AboutComponent
-      },
-      {
-        path:'location/:locationId',
-        component: DetailsPageComponent
-      }
-    ])
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [FrameworkComponent]

@@ -8,7 +8,7 @@ require('./app_api/models/db');
 // var indexRouter = require('./web_server/routes/index');
 // var usersRouter = require('./web_server/routes/users');
 
-const indexRouter = require('./app_server/routes/index');
+//const indexRouter = require('./app_server/routes/index');
 const apiRouter = require('./app_api/routes/index');
 var usersRouter = require('./app_server/routes/users');
 
@@ -23,14 +23,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'app_public')));
+app.use(express.static(path.join(__dirname, 'app_public', 'build')));
 
 app.use('/api', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
-app.use('/', indexRouter);
+//app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/users', usersRouter);
 
