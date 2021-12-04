@@ -8,8 +8,8 @@ import { Location, Review } from './location';
 export class Loc8rDataService {
 
   constructor(private http: HttpClient) { }
-
-  private apiBaseUrl = 'https://loc8r-97kzone.herokuapp.com/api';
+  private apiBaseUrl = 'http://localhost:3000/api';
+  //private apiBaseUrl = 'https://loc8r-97kzone.herokuapp.com/api';
 
   public getLocations(lat: number, lng:number): Promise<Location[]> {
     const maxDistance: number = 200000;

@@ -1,4 +1,4 @@
-const { response } = require('express');
+//const { response } = require('express');
 const request = require('request');
 
 const apiOptions = {
@@ -32,8 +32,7 @@ const homelist = (req, res) => {
         });
       };
       renderHomepage(req, res, data);
-    }
-  );
+    });
 };
 
 const formatDistance = (distance) => {

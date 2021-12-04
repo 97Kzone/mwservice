@@ -1,5 +1,7 @@
+require('./locations');
+require('./users');
 const mongoose = require('mongoose');
-//var gracefulShutdown;
+var gracefulShutdown;
 const dbURI = 'mongodb+srv://my_atlas_user:dpeb4815@cluster0.iaqo9.mongodb.net/loc8r'
 mongoose.connect(dbURI, {
     useNewUrlParser: true
@@ -41,5 +43,3 @@ process.on('SIGTERM', function () {
     });
 });
 
-require('./locations');
-require('./users');

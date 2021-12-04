@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 const register = (req, res) => {
-    if(!req.body.name || !req.body.email || !req.body.password) {
+    if (!req.body.name || !req.body.email || !req.body.password) {
         return res
             .status(400)
-            .json({"message": "All fields required"});
+            .json({ message: 'All fields required' });
     }
     const user = new User();
     user.name = req.body.name;
@@ -14,45 +14,38 @@ const register = (req, res) => {
     user.setPassword(req.body.password);
     user.save((err) => {
         if (err) {
-            res
-                .status(404)
-                .json(err);
-        } else {
+            res.status(404).json(err);
+            
+        }else{
             const token = user.generateJwt();
-            res
-                .status(200)
-                .json({token});
+            res.status(200).json({ token })
         }
     });
 };
 
-const login = (req, res) => {
-    if (!req.body.email || !req.body.password) {
+const login = (req ,res)=>{
+    if(!req.body.email || !req.body.password){
         return res
-            .status($00)
+            .status(400)
             .json({"message": "All fields required"});
     }
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', (err, user, info) =>{
         let token;
-        if(err) {
+        if(err){
             return res
                 .status(404)
                 .json(err);
         }
-        if (user) {
+        if(user){
             token = user.generateJwt();
-            res
-                .status(200)
-                .json({token});
-        } else {
-            res
-                .status(401)
-                .json(info);
+            res.status(200).json({token});
+        }else{
+            res.status(401).json(info);
         }
-    })(req, res);   
+    })(req,res);
 };
 
-module.exports = {
+module.exports={
     register,
     login
 };
